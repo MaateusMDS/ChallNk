@@ -23,17 +23,19 @@ public class Main {
     public static void main(String[] args) {
         List<JSONObject> messages = new ArrayList<>();
 
-        JSONObject systemMessage = new JSONObject()
-                .put("role", "system")
-                .put("content", "Você é um assistente comediante");
+        JSONObject systemMessage = new JSONObject().put("role", "system").put("content", "Você é um assistente comediante");
         messages.add(systemMessage);
 
-        String user_input = JOptionPane.showInputDialog("Insira a pergunta");
-        String chatGptReply = Chat(user_input, messages);
-        System.out.println("Resposta do ChatGPT: " + chatGptReply);
+        String user_input = "";
+
+        while (!user_input.equals("Fim")) {
+            user_input = JOptionPane.showInputDialog("Insira a pergunta");
+            String chatGptReply = chat(user_input, messages);
+            System.out.println("Resposta do ChatGPT: " + chatGptReply);
+        }
     }
 
-    public static String Chat(String user_input, List<JSONObject> messages) {
+    public static String chat(String user_input, List<JSONObject> messages) {
         JSONObject userMessage = new JSONObject()
                 .put("role", "user")
                 .put("content", user_input);
@@ -43,7 +45,8 @@ public class Main {
 
         JSONObject requestBody = new JSONObject()
                 .put("model", "gpt-3.5-turbo")
-                .put("messages", messagesArray);
+                .put("messages", messagesArray)
+                .put("max_tokens", 50);
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost("https://api.openai.com/v1/chat/completions");
