@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+
+    <persistence-unit name="oracle" transaction-type="RESOURCE_LOCAL">
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl"/>
+            <property name="jakarta.persistence.jdbc.user" value="rm93618"/>
+            <property name="jakarta.persistence.jdbc.password" value="081003"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hql.bulk_id_strategy" value="org.hibernate.hql.spi.id.inline.InlineIdsOrClauseBulkIdStrategy"/>
+            <property name="hibernate.discriminator.ignore_explicit_for_joined" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
