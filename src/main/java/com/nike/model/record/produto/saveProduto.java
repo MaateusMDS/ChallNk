@@ -17,7 +17,7 @@ public record saveProduto(
         Set<Categoria> categoria,
         @NotNull
         Genero genero,
-        @NotBlank @Min(1)
+        @NotNull @Min(1)
         float preco
 ) {
 }
