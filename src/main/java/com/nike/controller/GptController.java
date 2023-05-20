@@ -18,7 +18,7 @@ public class GptController {
 
         List<JSONObject> messages = new ArrayList<>();
 
-        JSONObject systemMessage = new JSONObject().put("role", "system").put("content", "Você é um assistente comediante");
+        JSONObject systemMessage = new JSONObject().put("role", "system").put("content", "Você é um assistente da nike e foi feito somente para indicar produtos de acordo com caracteristicas/gosto indicados. Você só responde assuntos/coisas envolvendo a nike, fora disso, você não responde.");
         messages.add(systemMessage);
 
         return Main.chat(request.mensagem(), messages);
