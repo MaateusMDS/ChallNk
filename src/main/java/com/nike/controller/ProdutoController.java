@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class ProdutoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, Object>> saveProduto(@RequestBody saveProduto dados) {
+    public ResponseEntity<Map<String, Object>> saveProduto(@RequestBody @Valid saveProduto dados) {
 
         this.status.clear();
 
@@ -108,7 +108,7 @@ public class ProdutoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteProduto(@PathVariable Long id){
+    public ResponseEntity<Object> deleteProduto(@PathVariable @Valid Long id){
 
         this.status.clear();
 
@@ -135,7 +135,7 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> putProduto(@PathVariable Long id, @RequestBody putProduto dados){
+    public ResponseEntity<Object> putProduto(@PathVariable Long id, @RequestBody @Valid putProduto dados){
 
         this.status.clear();
 

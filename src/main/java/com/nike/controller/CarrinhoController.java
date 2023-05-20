@@ -9,6 +9,7 @@ import com.nike.repository.RepositoryCarrinho;
 import com.nike.repository.RepositoryProduto;
 import com.nike.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class CarrinhoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, Object>> saveCarrinho(@RequestBody saveCarrinho dados) {
+    public ResponseEntity<Map<String, Object>> saveCarrinho(@RequestBody @Valid saveCarrinho dados) {
 
         this.status.clear();
 
@@ -114,7 +115,7 @@ public class CarrinhoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteCarrinho(@PathVariable Long id){
+    public ResponseEntity<Object> deleteCarrinho(@PathVariable @Valid Long id){
 
         this.status.clear();
 

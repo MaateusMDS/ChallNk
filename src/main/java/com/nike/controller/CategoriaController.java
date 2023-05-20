@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, Object>> saveCategoria(@RequestBody saveCategoria dados) {
+    public ResponseEntity<Map<String, Object>> saveCategoria(@RequestBody @Valid saveCategoria dados) {
 
         this.status.clear();
 
@@ -83,7 +84,7 @@ public class CategoriaController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteCategoria(@PathVariable Long id){
+    public ResponseEntity<Object> deleteCategoria(@PathVariable @Valid Long id){
 
         this.status.clear();
 
@@ -110,7 +111,7 @@ public class CategoriaController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> putCategoria(@PathVariable Long id, @RequestBody putCategoria dados){
+    public ResponseEntity<Object> putCategoria(@PathVariable Long id, @RequestBody @Valid putCategoria dados){
 
         this.status.clear();
 

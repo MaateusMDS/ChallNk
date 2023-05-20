@@ -1,8 +1,12 @@
 package com.nike.model.record.user;
 
-public record putUser(
+import jakarta.validation.constraints.Email;
+
+public record putUser (
+
         String nome,
         String sobrenome,
+        @Email
         String email,
         String senha
 ) {

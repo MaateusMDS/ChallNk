@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, Object>> saveUser(@RequestBody saveUser dados) {
+    public ResponseEntity<Map<String, Object>> saveUser(@RequestBody @Valid saveUser dados) {
 
         this.status.clear();
 
@@ -82,7 +83,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Object> deleteUser(@PathVariable @Valid Long id){
 
         this.status.clear();
 
@@ -109,7 +110,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody putUser dados){
+    public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody @Valid putUser dados){
 
         this.status.clear();
 

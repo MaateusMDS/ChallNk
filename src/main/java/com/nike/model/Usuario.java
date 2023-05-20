@@ -12,6 +12,7 @@ import lombok.*;
 @Setter
 @ToString
 
+
 @Entity
 @Table(name = "NK_TB_USUARIO", uniqueConstraints = {
         @UniqueConstraint(name = "UK_EMAIL", columnNames = "DS_EMAIL")
