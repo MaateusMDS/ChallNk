@@ -29,16 +29,9 @@ public class ProdutoController {
         this.status.clear();
 
         try {
-            repository.save(new Produto(dados));
+            var produto = repository.save(new Produto(dados));
             this.status.put("status", 200);
-            Map<String, Object> produtoMap = new HashMap<>();
-
-            produtoMap.put("nome", dados.nome());
-            produtoMap.put("preco", dados.preco());
-            produtoMap.put("categoria", dados.categoria());
-            produtoMap.put("genero", dados.genero());
-
-            this.status.put("message",produtoMap);
+            this.status.put("message",produto);
 
             return ResponseEntity.ok(status);
         } catch (Exception e) {
@@ -56,16 +49,8 @@ public class ProdutoController {
         try {
             var produtoId = repository.findById(id);
             if (produtoId.isPresent()) {
-                Map<String, Object> produtoMap = new HashMap<>();
-                Produto produto = produtoId.get();
-
-                produtoMap.put("id", produto.getId());
-                produtoMap.put("nome", produto.getNome());
-                produtoMap.put("preco", produto.getPreco());
-                produtoMap.put("categoria", produto.getCategorias());
-                produtoMap.put("genero", produto.getGenero());
-
-                return ResponseEntity.ok(produtoMap);
+                status.put("status", 200);
+                status.put("message", produtoId.stream().toArray());
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");
@@ -76,6 +61,7 @@ public class ProdutoController {
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @GetMapping()
@@ -84,12 +70,14 @@ public class ProdutoController {
         this.status.clear();
 
         try {
-            return ResponseEntity.ok(repository.findAll().toArray());
+            this.status.put("status", 200);
+            this.status.put("message", repository.findAll().toArray());
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("/{id}")
@@ -133,16 +121,7 @@ public class ProdutoController {
                 produto.putProduto(dados);
 
                 this.status.put("status", 200);
-
-                Map<String, Object> produtoMap = new HashMap<>();
-
-                produtoMap.put("nome", dados.nome());
-                produtoMap.put("preco", dados.preco());
-                produtoMap.put("categoria", dados.categoria());
-                produtoMap.put("genero", dados.genero());
-
-
-                this.status.put("message",produtoMap);
+                this.status.put("message",produto);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");

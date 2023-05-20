@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/carrinho")
@@ -62,22 +61,16 @@ public class CarrinhoController {
             carrinho.setProduto(produto);
             carrinho.setUsuario(usuario);
 
-            repository.save(carrinho);
+            var save = repository.save(carrinho);
 
             this.status.put("status", 200);
-            Map<String, Object> carrinhoMap = new HashMap<>();
-
-            carrinhoMap.put("usuario", usuario);
-            carrinhoMap.put("produto", produto);
-
-            this.status.put("message",carrinhoMap);
-
-            return ResponseEntity.ok(status);
+            this.status.put("message",save);
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @GetMapping("/{id}")
@@ -114,12 +107,14 @@ public class CarrinhoController {
         this.status.clear();
 
         try {
-            return ResponseEntity.ok(repository.findAllBy().toArray());
+            this.status.put("status", 200);
+            this.status.put("message", repository.findAll().toArray());
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("/{id}")
@@ -163,14 +158,7 @@ public class CarrinhoController {
                 carrinho.putCarrinho(dados);
 
                 this.status.put("status", 200);
-
-                Map<String, Object> carrinhoMap = new HashMap<>();
-
-                carrinhoMap.put("id", carrinho.getId());
-                carrinhoMap.put("usuario", carrinho.getUsuario());
-                carrinhoMap.put("produto", carrinho.getProduto());
-
-                this.status.put("message",carrinhoMap);
+                this.status.put("message",carrinho);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");

@@ -50,13 +50,8 @@ public class CategoriaController {
         try {
             var categoriaID = repository.findById(id);
             if (categoriaID.isPresent()) {
-                Map<String, Object> usuarioMap = new HashMap<>();
-                Categoria categoria = categoriaID.get();
-
-                usuarioMap.put("id", categoria.getId());
-                usuarioMap.put("nome", categoria.getNome());
-
-                return ResponseEntity.ok(usuarioMap);
+                this.status.put("status", 200);
+                this.status.put("message", categoriaID);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");
@@ -67,6 +62,7 @@ public class CategoriaController {
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @GetMapping()
@@ -75,12 +71,14 @@ public class CategoriaController {
         this.status.clear();
 
         try {
-            return ResponseEntity.ok(repository.findAll().toArray());
+            this.status.put("status", 200);
+            this.status.put("message", repository.findAll().toArray());
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("/{id}")

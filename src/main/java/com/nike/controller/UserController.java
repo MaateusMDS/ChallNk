@@ -51,7 +51,6 @@ public class UserController {
             if (usuario.isPresent()) {
                 status.put("status", 200);
                 status.put("message", usuario.stream().toArray());
-                return ResponseEntity.ok(status);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");
@@ -62,6 +61,7 @@ public class UserController {
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @GetMapping()
@@ -70,12 +70,14 @@ public class UserController {
         this.status.clear();
 
         try {
-            return ResponseEntity.ok(repository.findAll().toArray());
+            this.status.put("status", 200);
+            this.status.put("message", repository.findAll().toArray());
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("/{id}")
