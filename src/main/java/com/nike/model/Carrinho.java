@@ -2,8 +2,6 @@ package com.nike.model;
 
 import com.nike.model.record.carrinho.putCarrinho;
 import com.nike.model.record.carrinho.saveCarrinho;
-import com.nike.model.record.categoria.putCategoria;
-import com.nike.model.record.categoria.saveCategoria;
 import jakarta.persistence.*;
 import lombok.*;
 
