@@ -87,7 +87,7 @@ public class Produto {
         this.preco = produto.preco);
     }
 
-    public void putUser(putProduto produto){
+    public void putProduto(putProduto produto){
         if(produto.nome() != null){
             this.nome = produto.nome();
         }
