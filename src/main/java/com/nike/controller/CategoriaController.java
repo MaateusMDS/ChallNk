@@ -53,9 +53,9 @@ public class CategoriaController {
                 this.status.put("status", 200);
                 this.status.put("message", categoriaID);
             } else {
-                this.status.put("status", 404);
-                this.status.put("message", "not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+                this.status.put("status", 400);
+                this.status.put("message", "Categoria não encontrada.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
         } catch (Exception e) {
             this.status.put("status", 500);
@@ -95,9 +95,9 @@ public class CategoriaController {
                 this.status.put("status", 200);
                 this.status.put("message", categoria.get().getNome() + " deleted");
             } else {
-                this.status.put("status", 404);
-                this.status.put("message", "not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+                this.status.put("status", 400);
+                this.status.put("message", "Categoria não encontrada.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
 
             return ResponseEntity.ok(status);
@@ -129,9 +129,9 @@ public class CategoriaController {
 
                 this.status.put("message",usuarioMap);
             } else {
-                this.status.put("status", 404);
-                this.status.put("message", "not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+                this.status.put("status", 400);
+                this.status.put("message", "Categoria não encontrada.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
             return ResponseEntity.ok(status);
         } catch (Exception e) {

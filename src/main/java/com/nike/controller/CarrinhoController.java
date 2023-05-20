@@ -44,15 +44,15 @@ public class CarrinhoController {
             Produto produto = repositoryProduto.findById(dados.produto().getId()).orElse(null);
 
             if (produto == null) {
-                this.status.put("status", 500);
-                this.status.put("message", "product not found");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+                this.status.put("status", 400);
+                this.status.put("message", "Produto não encontrado.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
 
             if (usuario == null) {
-                this.status.put("status", 500);
-                this.status.put("message", "usuario not found");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+                this.status.put("status", 400);
+                this.status.put("message", "Usuário não encontrado.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
 
             var carrinho = new Carrinho();
@@ -74,31 +74,26 @@ public class CarrinhoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getCarrinhoById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getCategoriaById(@PathVariable Long id) {
 
         this.status.clear();
 
         try {
-            var carrinhoId= repository.findById(id);
-            if (carrinhoId.isPresent()) {
-                Map<String, Object> carrinhoMap = new HashMap<>();
-                Carrinho carrinho = carrinhoId.get();
-
-                carrinhoMap.put("id", carrinho.getId());
-                carrinhoMap.put("usuario", carrinho.getUsuario());
-                carrinhoMap.put("produto", carrinho.getProduto());
-
-                return ResponseEntity.ok(carrinhoMap);
+            var carrinho = repository.findById(id);
+            if (carrinho.isPresent()) {
+                this.status.put("status", 200);
+                this.status.put("message", carrinho);
             } else {
-                this.status.put("status", 404);
-                this.status.put("message", "not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+                this.status.put("status", 400);
+                this.status.put("message", "Carrinho não encontrado.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
+        return ResponseEntity.ok(status);
     }
 
     @GetMapping()
@@ -131,9 +126,9 @@ public class CarrinhoController {
                 this.status.put("status", 200);
                 this.status.put("message", "carrinho" + carrinho.get().getUsuario() + " deleted");
             } else {
-                this.status.put("status", 404);
-                this.status.put("message", "not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+                this.status.put("status", 400);
+                this.status.put("message", "Carrinho não encontrado.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
 
             return ResponseEntity.ok(status);
@@ -160,9 +155,9 @@ public class CarrinhoController {
                 this.status.put("status", 200);
                 this.status.put("message",carrinho);
             } else {
-                this.status.put("status", 404);
-                this.status.put("message", "not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+                this.status.put("status", 400);
+                this.status.put("message", "Carrinho não encontrado.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
             return ResponseEntity.ok(status);
         } catch (Exception e) {

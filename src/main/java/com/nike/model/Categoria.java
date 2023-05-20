@@ -12,7 +12,9 @@ import lombok.*;
 @ToString
 
 @Entity
-@Table(name = "NK_TB_CATEGORIA")
+@Table(name = "NK_TB_CATEGORIA", uniqueConstraints = {
+        @UniqueConstraint(name = "UN_NM_CATEGORIA", columnNames = "NM_CATEGORIA")
+})
 public class Categoria {
 
 
