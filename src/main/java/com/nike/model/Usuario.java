@@ -1,5 +1,6 @@
 package com.nike.model;
 
+import com.nike.model.record.user.putUser;
 import com.nike.model.record.user.saveUser;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,5 +41,20 @@ public class Usuario {
         this.sobrenome = user.email();
         this.email = user.email();
         this.senha = user.senha();
+    }
+
+    public void putUser(putUser user){
+        if(user.nome() != null){
+            this.nome = user.nome();
+        }
+        if(user.sobrenome() != null){
+            this.sobrenome = user.sobrenome();
+        }
+        if(user.email() != null){
+            this.email = user.email();
+        }
+        if(user.senha() != null){
+            this.senha = user.senha();
+        }
     }
 }
