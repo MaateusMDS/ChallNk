@@ -1,16 +1,22 @@
 package com.nike.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 
 @Entity
 @Table(
         name = "TB_PRODUTO"
 )
 public class Produto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_PRODUTO")
     @SequenceGenerator(
@@ -20,8 +26,10 @@ public class Produto {
             allocationSize = 1
     )
     @Column(name = "ID_PRODUTO")
+    @Getter @Setter
     private Long id;
     @Column(name = "NM_PRODUTO")
+    @Getter @Setter
     private String nome;
 
     @ManyToMany(
@@ -47,39 +55,12 @@ public class Produto {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "DS_GENERO")
+    @Getter @Setter
     private Genero genero;
 
     @Column(name = "NR_PRECO")
+    @Getter @Setter
     private float preco;
-
-    public Produto() {
-    }
-
-    public Produto(Long id, String nome, Set<Categoria> categoria, Genero genero, float preco) {
-        this.id = id;
-        this.nome = nome;
-        this.categoria = categoria;
-        this.genero = genero;
-        this.preco = preco;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Produto setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Produto setNome(String nome) {
-        this.nome = nome;
-        return this;
-    }
 
     public Produto addCategoria(Categoria cat){
         this.categoria.add(cat);
@@ -93,35 +74,6 @@ public class Produto {
 
     public Set<Categoria> getCategorias(){
         return Collections.unmodifiableSet(categoria);
-    }
-
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
-    }
-
-    public float getPreco() {
-        return preco;
-    }
-
-    public Produto setPreco(float preco) {
-        this.preco = preco;
-        return this;
-
-    }
-
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", categoria=" + categoria +
-                ", genero=" + genero +
-                ", preco=" + preco +
-                '}';
     }
 }
 

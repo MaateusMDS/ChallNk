@@ -1,9 +1,17 @@
 package com.nike.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "TB_CARRINHO")
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+
 public class Carrinho {
 
     @Id
@@ -27,29 +35,4 @@ public class Carrinho {
             name = "ID_USUARIO", referencedColumnName = "ID_USUARIO", foreignKey = @ForeignKey(name = "FK_USUARIO_CARRINHO")
     )
     private Usuario usuario;
-
-    public Carrinho() {
-    }
-    public Carrinho(Long id, Produto produto) {
-        this.id = id;
-        this.produto = produto;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Carrinho setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public Carrinho setProduto(Produto produto) {
-        this.produto = produto;
-        return this;
-    }
 }

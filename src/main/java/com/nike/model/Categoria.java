@@ -1,6 +1,13 @@
 package com.nike.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 
 @Entity
 @Table(name = "TB_CATEGORIA")
@@ -20,30 +27,4 @@ public class Categoria {
 
     @Column(name = "NM_CATEGORIA")
     private String nome;
-
-    public Categoria() {
-    }
-
-    public Categoria(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Categoria setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Categoria setNome(String nome) {
-        this.nome = nome;
-        return this;
-    }
 }
