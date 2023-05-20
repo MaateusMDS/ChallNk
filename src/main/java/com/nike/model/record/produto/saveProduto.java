@@ -2,12 +2,13 @@ package com.nike.model.record.produto;
 
 import com.nike.model.Categoria;
 import com.nike.model.Genero;
-import com.nike.model.Produto;
+
+import java.util.Set;
 
 public record saveProduto(
 
         String nome,
-        Categoria categoria,
+        Set<Categoria> categoria,
         Genero genero,
         float preco
 ) {
