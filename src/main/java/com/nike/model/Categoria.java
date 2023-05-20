@@ -1,5 +1,9 @@
 package com.nike.model;
 
+import com.nike.model.record.categoria.putCategoria;
+import com.nike.model.record.categoria.saveCategoria;
+import com.nike.model.record.user.putUser;
+import com.nike.model.record.user.saveUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,4 +31,14 @@ public class Categoria {
 
     @Column(name = "NM_CATEGORIA")
     private String nome;
+
+    public Categoria(saveCategoria categoria) {
+        this.nome = categoria.nome();
+    }
+
+    public void putUser(putCategoria categoria){
+        if(categoria.nome() != null){
+            this.nome = categoria.nome();
+        }
+    }
 }
