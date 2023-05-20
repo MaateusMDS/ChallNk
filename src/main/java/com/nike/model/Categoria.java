@@ -14,7 +14,7 @@ import lombok.*;
 @ToString
 
 @Entity
-@Table(name = "TB_CATEGORIA")
+@Table(name = "NK_TB_CATEGORIA")
 public class Categoria {
 
 

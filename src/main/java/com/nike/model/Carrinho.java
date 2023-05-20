@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "TB_CARRINHO")
+@Table(name = "NK_TB_CARRINHO")
 
 @AllArgsConstructor
 @NoArgsConstructor

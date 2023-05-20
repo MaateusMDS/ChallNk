@@ -22,7 +22,7 @@ public class ProdutoController {
     @Autowired
     private RepositoryUser repository;
 
-    @PostMapping("/user")
+    @PostMapping("/produto")
     @Transactional
     public ResponseEntity<Map<String, Object>> saveUser(@RequestBody saveUser dados) {
 
@@ -47,7 +47,7 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/produto/{id}")
     public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
 
         this.status.clear();
@@ -76,7 +76,7 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("/user")
+    @GetMapping("/produto")
     public ResponseEntity<Object> getAll(){
 
         this.status.clear();
@@ -90,7 +90,7 @@ public class ProdutoController {
         }
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/produto/{id}")
     @Transactional
     public ResponseEntity<Object> deleteUser(@PathVariable Long id){
 
@@ -117,7 +117,7 @@ public class ProdutoController {
         }
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/produto/{id}")
     @Transactional
     public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody putUser dados){
 

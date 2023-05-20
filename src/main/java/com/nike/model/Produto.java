@@ -82,9 +82,9 @@ public class Produto {
 
     public Produto(saveProduto produto) {
         this.nome = produto.nome();
-        this.categoria = produto.categoria();
+//        this.categoria = produto.categoria();
         this.genero = produto.genero();
-        this.preco = produto.preco);
+        this.preco = produto.preco();
     }
 
     public void putProduto(putProduto produto){
@@ -95,7 +95,7 @@ public class Produto {
             this.preco = produto.preco();
         }
         if(produto.categoria() != null){
-            this.categoria = produto.categoria();
+//            this.categoria = produto.categoria();
         }
         if(produto.genero() != null){
             this.genero = produto.genero();
