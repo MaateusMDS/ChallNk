@@ -2,8 +2,13 @@ package com.nike.model;
 
 import com.nike.model.record.carrinho.putCarrinho;
 import com.nike.model.record.carrinho.saveCarrinho;
+import com.nike.repository.RepositoryCarrinho;
+import com.nike.repository.RepositoryProduto;
+import com.nike.repository.RepositoryUser;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Optional;
 
 @Entity
 @Table(name = "NK_TB_CARRINHO")

@@ -29,15 +29,9 @@ public class UserController {
         this.status.clear();
 
         try {
-            repository.save(new Usuario(dados));
+            Usuario usuario = repository.save(new Usuario(dados));
             this.status.put("status", 200);
-            Map<String, Object> usuarioMap = new HashMap<>();
-
-            usuarioMap.put("nome", dados.nome());
-            usuarioMap.put("sobrenome", dados.sobrenome());
-            usuarioMap.put("email", dados.email());
-
-            this.status.put("message",usuarioMap);
+            this.status.put("message", usuario);
 
             return ResponseEntity.ok(status);
         } catch (Exception e) {
@@ -55,15 +49,9 @@ public class UserController {
         try {
             var usuario = repository.findById(id);
             if (usuario.isPresent()) {
-                Map<String, Object> usuarioMap = new HashMap<>();
-                Usuario user = usuario.get();
-
-                usuarioMap.put("id", user.getId());
-                usuarioMap.put("nome", user.getNome());
-                usuarioMap.put("sobrenome", user.getSobrenome());
-                usuarioMap.put("email", user.getEmail());
-
-                return ResponseEntity.ok(usuarioMap);
+                status.put("status", 200);
+                status.put("message", usuario.stream().toArray());
+                return ResponseEntity.ok(status);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");
@@ -82,7 +70,7 @@ public class UserController {
         this.status.clear();
 
         try {
-            return ResponseEntity.ok(repository.findAllBy().toArray());
+            return ResponseEntity.ok(repository.findAll().toArray());
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
@@ -131,14 +119,7 @@ public class UserController {
                 usuario.putUser(dados);
 
                 this.status.put("status", 200);
-
-                Map<String, Object> usuarioMap = new HashMap<>();
-
-                usuarioMap.put("nome", dados.nome());
-                usuarioMap.put("sobrenome", dados.sobrenome());
-                usuarioMap.put("email", dados.email());
-
-                this.status.put("message",usuarioMap);
+                this.status.put("message",usuarioId.stream().toArray());
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");

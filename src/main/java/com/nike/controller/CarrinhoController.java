@@ -1,9 +1,13 @@
 package com.nike.controller;
 
 import com.nike.model.Carrinho;
+import com.nike.model.Produto;
+import com.nike.model.Usuario;
 import com.nike.model.record.carrinho.putCarrinho;
 import com.nike.model.record.carrinho.saveCarrinho;
 import com.nike.repository.RepositoryCarrinho;
+import com.nike.repository.RepositoryProduto;
+import com.nike.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/carrinho")
@@ -22,6 +27,12 @@ public class CarrinhoController {
     @Autowired
     private RepositoryCarrinho repository;
 
+    @Autowired
+    private RepositoryUser repositoryUser;
+
+    @Autowired
+    private RepositoryProduto repositoryProduto;
+
     @PostMapping
     @Transactional
     public ResponseEntity<Map<String, Object>> saveCarrinho(@RequestBody saveCarrinho dados) {
@@ -30,15 +41,34 @@ public class CarrinhoController {
 
         try {
 
-            var carrinho = new Carrinho(dados);
+            Usuario usuario = repositoryUser.findById(dados.usuario().getId()).orElse(null);
+            Produto produto = repositoryProduto.findById(dados.produto().getId()).orElse(null);
+
+            if (produto == null) {
+                this.status.put("status", 500);
+                this.status.put("message", "product not found");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+            }
+
+            if (usuario == null) {
+                this.status.put("status", 500);
+                this.status.put("message", "usuario not found");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+            }
+
+            var carrinho = new Carrinho();
+
+
+            carrinho.setProduto(produto);
+            carrinho.setUsuario(usuario);
 
             repository.save(carrinho);
 
             this.status.put("status", 200);
             Map<String, Object> carrinhoMap = new HashMap<>();
 
-            carrinhoMap.put("usuario", dados.usuario());
-            carrinhoMap.put("produto", dados.produto());
+            carrinhoMap.put("usuario", usuario);
+            carrinhoMap.put("produto", produto);
 
             this.status.put("message",carrinhoMap);
 

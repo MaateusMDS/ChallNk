@@ -1,5 +1,6 @@
 package com.nike.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nike.model.record.user.putUser;
 import com.nike.model.record.user.saveUser;
 import jakarta.persistence.*;
@@ -34,6 +35,7 @@ public class Usuario {
     @Column(name = "DS_EMAIL")
     private String email;
     @Column(name = "DS_SENHA")
+    @JsonIgnore
     private String senha;
 
     public Usuario(saveUser user) {
