@@ -71,6 +71,7 @@ public class Main {
                     .put("role", "assistant")
                     .put("content", chatGptReply);
             messages.add(assistantMessage);
+            System.out.println(messages);
 
             return chatGptReply;
         } catch (IOException e) {

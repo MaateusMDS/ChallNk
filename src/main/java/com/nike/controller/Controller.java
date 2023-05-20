@@ -1,6 +1,7 @@
 package com.nike.controller;
 
-import com.nike.model.getChat;
+import com.nike.model.record.criarUser;
+import com.nike.model.record.getChat;
 import com.nike.gpt.Main;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +21,16 @@ public class Controller {
 
         List<JSONObject> messages = new ArrayList<>();
 
-        JSONObject systemMessage = new JSONObject()
-                .put("role", "system")
-                .put("content", "Você é um assistente da Nike");
+        JSONObject systemMessage = new JSONObject().put("role", "system").put("content", "Você é um assistente comediante");
         messages.add(systemMessage);
 
-        return Main.chat(request.mensagem(), messages);
+            return Main.chat(request.mensagem(), messages);
+    }
+
+    @PostMapping("/user")
+    public static String criarUsuario(@RequestBody criarUser dados){
+        return "";
+
     }
 
 }
