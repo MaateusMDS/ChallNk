@@ -1,5 +1,9 @@
 package com.nike.model;
 
+import com.nike.model.record.produto.putProduto;
+import com.nike.model.record.produto.saveProduto;
+import com.nike.model.record.user.putUser;
+import com.nike.model.record.user.saveUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -74,6 +78,28 @@ public class Produto {
 
     public Set<Categoria> getCategorias(){
         return Collections.unmodifiableSet(categoria);
+    }
+
+    public Produto(saveProduto produto) {
+        this.nome = produto.nome();
+        this.categoria = produto.categoria();
+        this.genero = produto.genero();
+        this.preco = produto.preco);
+    }
+
+    public void putUser(putProduto produto){
+        if(produto.nome() != null){
+            this.nome = produto.nome();
+        }
+        if(produto.preco() > 0){
+            this.preco = produto.preco();
+        }
+        if(produto.categoria() != null){
+            this.categoria = produto.categoria();
+        }
+        if(produto.genero() != null){
+            this.genero = produto.genero();
+        }
     }
 }
 
