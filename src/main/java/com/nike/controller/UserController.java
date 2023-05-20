@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping
+@RequestMapping("/user")
 public class UserController {
 
     Map<String, Object> status = new HashMap<>();
@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private RepositoryUser repository;
 
-    @PostMapping("/user")
+    @PostMapping
     @Transactional
     public ResponseEntity<Map<String, Object>> saveUser(@RequestBody saveUser dados) {
 
@@ -47,7 +47,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
 
         this.status.clear();
@@ -76,7 +76,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user")
+    @GetMapping()
     public ResponseEntity<Object> getAll(){
 
         this.status.clear();
@@ -90,7 +90,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Object> deleteUser(@PathVariable Long id){
 
@@ -117,7 +117,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody putUser dados){
 
