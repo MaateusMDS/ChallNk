@@ -1,9 +1,9 @@
 package com.nike.controller;
 
-import com.nike.model.Usuario;
-import com.nike.model.record.user.putUser;
-import com.nike.model.record.user.saveUser;
-import com.nike.repository.RepositoryUser;
+import com.nike.model.Produto;
+import com.nike.model.record.produto.putProduto;
+import com.nike.model.record.produto.saveProduto;
+import com.nike.repository.RepositoryProduto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,30 +14,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/produto")
+public class ProdutoController {
 
     Map<String, Object> status = new HashMap<>();
 
     @Autowired
-    private RepositoryUser repository;
+    private RepositoryProduto repository;
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Map<String, Object>> saveUser(@RequestBody saveUser dados) {
+    public ResponseEntity<Map<String, Object>> saveProduto(@RequestBody saveProduto dados) {
 
         this.status.clear();
 
         try {
-            repository.save(new Usuario(dados));
+            repository.save(new Produto(dados));
             this.status.put("status", 200);
-            Map<String, Object> usuarioMap = new HashMap<>();
+            Map<String, Object> produtoMap = new HashMap<>();
 
-            usuarioMap.put("nome", dados.nome());
-            usuarioMap.put("sobrenome", dados.sobrenome());
-            usuarioMap.put("email", dados.email());
+            produtoMap.put("nome", dados.nome());
+            produtoMap.put("preco", dados.preco());
+            produtoMap.put("categoria", dados.categoria());
+            produtoMap.put("genero", dados.genero());
 
-            this.status.put("message",usuarioMap);
+            this.status.put("message",produtoMap);
 
             return ResponseEntity.ok(status);
         } catch (Exception e) {
@@ -48,22 +49,23 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getProdutoById(@PathVariable Long id) {
 
         this.status.clear();
 
         try {
-            var usuario = repository.findById(id);
-            if (usuario.isPresent()) {
-                Map<String, Object> usuarioMap = new HashMap<>();
-                Usuario user = usuario.get();
+            var produtoId = repository.findById(id);
+            if (produtoId.isPresent()) {
+                Map<String, Object> produtoMap = new HashMap<>();
+                Produto produto = produtoId.get();
 
-                usuarioMap.put("id", user.getId());
-                usuarioMap.put("nome", user.getNome());
-                usuarioMap.put("sobrenome", user.getSobrenome());
-                usuarioMap.put("email", user.getEmail());
+                produtoMap.put("id", produto.getId());
+                produtoMap.put("nome", produto.getNome());
+                produtoMap.put("preco", produto.getPreco());
+                produtoMap.put("categoria", produto.getCategorias());
+                produtoMap.put("genero", produto.getGenero());
 
-                return ResponseEntity.ok(usuarioMap);
+                return ResponseEntity.ok(produtoMap);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");
@@ -82,7 +84,7 @@ public class UserController {
         this.status.clear();
 
         try {
-            return ResponseEntity.ok(repository.findAllBy().toArray());
+            return ResponseEntity.ok(repository.findAll().toArray());
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
@@ -92,17 +94,17 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Object> deleteProduto(@PathVariable Long id){
 
         this.status.clear();
 
         try {
-            var user = repository.findById(id);
-            if(user.isPresent()) {
+            var produto = repository.findById(id);
+            if(produto.isPresent()) {
                 repository.deleteById(id);
 
                 this.status.put("status", 200);
-                this.status.put("message", user.get().getEmail() + " deleted");
+                this.status.put("message", produto.get().getNome() + " deleted");
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");
@@ -119,26 +121,28 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody putUser dados){
+    public ResponseEntity<Object> putProduto(@PathVariable Long id, @RequestBody putProduto dados){
 
         this.status.clear();
 
         try {
-            var usuarioId = repository.findById(id);
-            if(usuarioId.isPresent()) {
-                Usuario usuario = repository.getReferenceById(id);
+            var produtoId = repository.findById(id);
+            if(produtoId.isPresent()) {
+                Produto produto = repository.getReferenceById(id);
 
-                usuario.putUser(dados);
+                produto.putProduto(dados);
 
                 this.status.put("status", 200);
 
-                Map<String, Object> usuarioMap = new HashMap<>();
+                Map<String, Object> produtoMap = new HashMap<>();
 
-                usuarioMap.put("nome", dados.nome());
-                usuarioMap.put("sobrenome", dados.sobrenome());
-                usuarioMap.put("email", dados.email());
+                produtoMap.put("nome", dados.nome());
+                produtoMap.put("preco", dados.preco());
+                produtoMap.put("categoria", dados.categoria());
+                produtoMap.put("genero", dados.genero());
 
-                this.status.put("message",usuarioMap);
+
+                this.status.put("message",produtoMap);
             } else {
                 this.status.put("status", 404);
                 this.status.put("message", "not found");

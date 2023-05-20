@@ -29,7 +29,7 @@ public class Produto {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "TB_CATEGORIA_PRODUTO",
+            name = "NK_TB_CATEGORIA_PRODUTO",
             joinColumns = {@JoinColumn(name = "ID_PRODUTO", referencedColumnName = "ID_PRODUTO", foreignKey = @ForeignKey(name = "FK_PRODUTO"))},
             inverseJoinColumns = {@JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA", foreignKey = @ForeignKey(name = "FK_CATEGORIA"))}
     )
