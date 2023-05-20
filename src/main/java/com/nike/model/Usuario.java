@@ -1,6 +1,6 @@
 package com.nike.model;
 
-import com.nike.model.record.user.CriarUser;
+import com.nike.model.record.user.saveUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,7 +35,7 @@ public class Usuario {
     @Column(name = "DS_SENHA")
     private String senha;
 
-    public Usuario(CriarUser user) {
+    public Usuario(saveUser user) {
         this.nome = user.nome();
         this.sobrenome = user.email();
         this.email = user.email();

@@ -1,7 +1,7 @@
 package com.nike.controller;
 
 import com.nike.model.Usuario;
-import com.nike.model.record.user.CriarUser;
+import com.nike.model.record.user.saveUser;
 import com.nike.repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class UserController {
     private RepositoryUser repository;
 
     @PostMapping("/user")
-    public ResponseEntity<Map<String, Object>> saveUser(@RequestBody CriarUser dados) {
+    public ResponseEntity<Map<String, Object>> saveUser(@RequestBody saveUser dados) {
 
         this.status.clear();
 
@@ -67,7 +67,9 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            this.status.put("status", 500);
+            this.status.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
     }
 
@@ -79,7 +81,35 @@ public class UserController {
         try {
             return ResponseEntity.ok(repository.findAllBy().toArray());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            this.status.put("status", 500);
+            this.status.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+        }
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable Long id){
+
+        this.status.clear();
+
+        try {
+            var user = repository.findById(id);
+            if(user.isPresent()) {
+                repository.deleteById(id);
+
+                this.status.put("status", 200);
+                this.status.put("message", user.get().getEmail() + " deleted");
+            } else {
+                this.status.put("status", 404);
+                this.status.put("error", "not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(this.status);
+            }
+
+            return ResponseEntity.ok(status);
+        } catch (Exception e) {
+            this.status.put("status", 500);
+            this.status.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
     }
 }

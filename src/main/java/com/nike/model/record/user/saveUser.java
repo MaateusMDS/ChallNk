@@ -1,6 +1,6 @@
 package com.nike.model.record.user;
 
-public record CriarUser(
+public record saveUser(
 
         String nome,
         String sobrenome,
