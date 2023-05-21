@@ -2,13 +2,13 @@ package com.nike.model.record.carrinho;
 
 import com.nike.model.Produto;
 import com.nike.model.Usuario;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 public record saveCarrinho(
-        @NotBlank
+        @NotNull
         Usuario usuario,
-        @NotBlank
+        @NotNull
         Produto produto
 ) {
 }
