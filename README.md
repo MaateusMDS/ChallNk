@@ -17,6 +17,9 @@ Onde o recurso chave, será o ChatGPT que as devidas informações, ele que irá
 
 Observação: Infelizmente, não temos de fato nenhuma relação com a Nike 😂, foi apenas uma base para utilizarmos.
 
+# Sobre esse repositório
+Esse repositório até o momento só está com a API Rest feita em Java com o Spring Boot e o Hibernate. Ele que servirá de base para a aplicação estar rodando. in-progress 🛠️
+
 
 ## Diagrama
 
