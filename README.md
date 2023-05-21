@@ -28,7 +28,7 @@ Esse repositório até o momento só está com a API Rest feita em Java com o Sp
 
 ## Protótipos
 Nossos protótipos estão abertos para serem visto pelo Figma.
-Para acessar os prótipos do App, clique [aqui](https://www.figma.com/file/U1XrkCJPQIDch0Owx3alAg/nike?type=design&node-id=0%3A1&t=9AGfKlwOBVJ5Rm8e-1).
+Para acessar os protótipos do App, clique [aqui](https://www.figma.com/file/U1XrkCJPQIDch0Owx3alAg/nike?type=design&node-id=0%3A1&t=9AGfKlwOBVJ5Rm8e-1).
 
 ## Tecnologias sendo utilizadas
 <p align="center"> 
