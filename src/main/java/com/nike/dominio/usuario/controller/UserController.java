@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -66,19 +69,11 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<Object> getAll(){
-
-        this.status.clear();
-
-        try {
-            this.status.put("status", 200);
-            this.status.put("message", repository.findAll().toArray());
-        } catch (Exception e) {
-            this.status.put("status", 500);
-            this.status.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
-        }
-        return ResponseEntity.ok(status);
+    public ModelAndView getAll() {
+        List<Usuario> usuarios = repository.findAll();
+        ModelAndView mv = new ModelAndView("usuarios");
+        mv.addObject("usuarios", usuarios);
+        return mv;
     }
 
     @DeleteMapping("/{id}")

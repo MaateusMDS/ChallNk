@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -93,10 +92,7 @@ public class ProdutoController {
     public ModelAndView getAll(){
 
         List<Produto> produtos = repository.findAll();
-        ModelAndView mv = new ModelAndView("produto");
-        for (Produto produto : produtos) {
-            System.out.println(produto.getNome());
-        }
+        ModelAndView mv = new ModelAndView("produtos");
         mv.addObject("produtos", produtos);
         return mv;
     }

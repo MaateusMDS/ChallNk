@@ -6,7 +6,11 @@
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
+
 <body>
+<nav class="navbar navbar-light bg-light p-3">
+    <span class="navbar-brand mb-0 h1"><img class="w-25 hover-zoom" src="https://logopng.com.br/logos/nike-99.svg" alt="Logo da Nike"/></span>
+</nav>
 <div class="container">
     <table class="table">
         <thead>
@@ -19,13 +23,13 @@
         </thead>
         <tbody>
         <tr th:each="produto : ${produtos}">
-            <th scope="row" th:value="${produto.id}"></th>
+            <th scope="row" th:text="${produto.id}" th:value="${produto.id}"></th>
             <th scope="row" th:text="${produto.nome}"></th>
             <td th:text="${produto.genero.name()}"></td>
             <td th:text="${produto.preco}"></td>
         </tr>
         </tbody>
     </table>
-</div>
+        </div>
 </body>
 </html>

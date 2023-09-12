@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+
+<body>
+<nav class="navbar navbar-light bg-light p-3">
+    <span class="navbar-brand mb-0 h1"><img class="w-25 hover-zoom" src="https://logopng.com.br/logos/nike-99.svg" alt="Logo da Nike"/></span>
+</nav>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Sobrenome</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <th scope="row" th:text="${usuario.id}" th:value="${usuario.id}"></th>
+            <th scope="row" th:text="${usuario.nome}"></th>
+            <td th:text="${usuario.sobrenome}"></td>
+            <td th:text="${usuario.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+        </div>
+</body>
+</html>

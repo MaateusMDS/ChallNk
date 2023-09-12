@@ -41,7 +41,7 @@ public class Usuario {
 
     public Usuario(saveUser user) {
         this.nome = user.nome();
-        this.sobrenome = user.email();
+        this.sobrenome = user.sobrenome();
         this.email = user.email();
         this.senha = user.senha();
     }
