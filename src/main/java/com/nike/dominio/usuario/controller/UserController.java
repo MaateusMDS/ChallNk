@@ -1,8 +1,8 @@
 package com.nike.dominio.usuario.controller;
 
 import com.nike.dominio.usuario.model.Usuario;
-import com.nike.model.record.user.putUser;
-import com.nike.model.record.user.saveUser;
+import com.nike.dominio.usuario.record.putUser;
+import com.nike.dominio.usuario.record.saveUser;
 import com.nike.dominio.usuario.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

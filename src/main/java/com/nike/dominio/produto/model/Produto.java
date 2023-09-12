@@ -1,7 +1,7 @@
 package com.nike.dominio.produto.model;
 
-import com.nike.model.record.produto.putProduto;
-import com.nike.model.record.produto.saveProduto;
+import com.nike.dominio.produto.record.putProduto;
+import com.nike.dominio.produto.record.saveProduto;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -2,9 +2,9 @@ package com.nike.dominio.produto.controller;
 
 import com.nike.dominio.produto.model.Categoria;
 import com.nike.dominio.produto.model.Produto;
-import com.nike.model.record.produto.putProduto;
-import com.nike.model.record.produto.saveProduto;
 import com.nike.dominio.categoria.repository.RepositoryCategoria;
+import com.nike.dominio.produto.record.putProduto;
+import com.nike.dominio.produto.record.saveProduto;
 import com.nike.dominio.produto.repository.RepositoryProduto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

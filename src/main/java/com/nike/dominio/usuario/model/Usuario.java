@@ -1,8 +1,8 @@
 package com.nike.dominio.usuario.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nike.model.record.user.putUser;
-import com.nike.model.record.user.saveUser;
+import com.nike.dominio.usuario.record.putUser;
+import com.nike.dominio.usuario.record.saveUser;
 import jakarta.persistence.*;
 import lombok.*;
 
