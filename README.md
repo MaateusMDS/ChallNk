@@ -54,7 +54,7 @@ Para esse **Readme** não ficar tão extenso, você pode acessar a documentaçã
 ## Autores
 
 - [@MaateusMDS](https://www.github.com/MaateusMDS)
-- [@lucasspiller](https://github.com/LucaSSpiller)
+- [@LucaSSpiller](https://github.com/LucaSSpiller)
 - [@scowp](https://github.com/scowp)
 - [@ClaudioYams](https://github.com/ClaudioYams)
 - [@Adolfozyzz](https://github.com/Adolfozyzz)
