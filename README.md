@@ -20,8 +20,10 @@ Observação: Infelizmente, não temos de fato nenhuma relação com a Nike 😂
 # Sobre esse repositório
 Esse repositório até o momento só está com a API Rest feita em Java com o Spring Boot e o Hibernate. Ele que servirá de base para a aplicação estar rodando. in-progress 🛠️
 
+### Demonstração da aplicação funcionando: [Clique aqui ➜ Vídeo](https://youtu.be/HRy6_dUa9z4)
 
-## Diagrama
+
+# Diagrama
 
 ![Diagrama de blocos](https://cdn.discordapp.com/attachments/1095719150204239953/1109633882854269009/Desenho3.png)
 
@@ -52,7 +54,7 @@ Para esse **Readme** não ficar tão extenso, você pode acessar a documentaçã
 ## Autores
 
 - [@MaateusMDS](https://www.github.com/MaateusMDS)
-- [@lucasspiller](https://github.com/LucaSSpiller)
+- [@LucaSSpiller](https://github.com/LucaSSpiller)
 - [@scowp](https://github.com/scowp)
 - [@ClaudioYams](https://github.com/ClaudioYams)
 - [@Adolfozyzz](https://github.com/Adolfozyzz)
