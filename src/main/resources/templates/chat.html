@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <div th:insert="~{shared/header :: head}"></div>
+  <link rel="stylesheet" th:href="@{../static/chat.css}">
+</head>
+
+<body>
+
+<div th:replace="~{shared/header :: header}"></div>
+
+<div class="container">
+  <div id="chatbox">
+    <div th:each="message : ${messages}">
+        <p th:if="${message.isUser}" class="user-message bg-light rounded p-2 w-75" th:text="${message.content}"></p>
+        <div th:unless="${message.isUser}" class="d-flex justify-content-start">
+            <img src="https://imgur.com/W3mxYTv.png" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            <p class="bg-dark text-white rounded p-2 w-75" th:text="${message.content}"></p>
+        </div>
+    </div>
+  </div>
+  <form action="/chat/send" method="post" style="margin-top: 10px;">
+    <div class="d-flex align-items-stretch flex-nowrap gap-3">
+      <input type="text" name="content" id="content" placeholder="Digite sua mensagem" class="form-control">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-chat-fill"></i>
+      </button>
+    </div>
+  </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("form").on("submit", function(event){
+      event.preventDefault();
+
+      var formValues= $(this).serialize();
+
+      $.post("/chat/send", formValues, function(data){
+        $('#chatbox').empty();
+        data.forEach(function(message) {
+          if (message.user) {
+            $('#chatbox').append('<div class="d-flex justify-content-end"><p class="user-message rounded p-2 w-75">' + message.content + '</p></div>');
+          } else {
+            $('#chatbox').append('<div class="d-flex justify-content-start"><img src="https://imgur.com/W3mxYTv.png" class="rounded-circle me-2" style="width: 40px; height: 40px;"><p class="bg-dark text-white rounded p-2 w-75">' + message.content + '</p></div>');
+          }
+        });
+        $('#content').val('');
+        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+      });
+    });
+  });
+</script>
+</body>
+</html>

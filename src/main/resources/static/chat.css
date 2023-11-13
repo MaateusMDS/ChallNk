@@ -1,0 +1,36 @@
+#chatbox::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+#chatbox {
+    overflow: -moz-scrollbar-none;
+    -ms-overflow-style: none;
+
+    height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.user-message, .bg-dark {
+    background-color: #e3e3e3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.user-message::after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: transparent;
+    border-right-color: #f8f9fa;
+    border-bottom: 0;
+    margin-top: -5px;
+    margin-left: -10px;
+}

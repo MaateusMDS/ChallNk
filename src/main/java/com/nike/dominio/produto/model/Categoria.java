@@ -1,9 +1,15 @@
 package com.nike.dominio.produto.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.nike.dominio.produto.record.categoria.putCategoria;
 import com.nike.dominio.produto.record.categoria.saveCategoria;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +21,10 @@ import lombok.*;
 @Table(name = "NK_TB_CATEGORIA", uniqueConstraints = {
         @UniqueConstraint(name = "UN_NM_CATEGORIA", columnNames = "NM_CATEGORIA")
 })
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Categoria {
 
 
@@ -31,6 +41,9 @@ public class Categoria {
 
     @Column(name = "NM_CATEGORIA")
     private String nome;
+
+    @ManyToMany(mappedBy = "categorias")
+    private Set<Produto> produtos = new LinkedHashSet<>();
 
     public Categoria(saveCategoria categoria) {
         this.nome = categoria.nome();

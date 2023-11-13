@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/carrinho")
+@RequestMapping("api/carrinho")
 public class CarrinhoController {
 
     Map<String, Object> status = new HashMap<>();
@@ -36,42 +36,41 @@ public class CarrinhoController {
     @PostMapping
     @Transactional
     public ResponseEntity<Map<String, Object>> saveCarrinho(@RequestBody @Valid saveCarrinho dados) {
-
         this.status.clear();
 
         try {
+            var usuario = repositoryUser.findById(dados.usuario().getId());
+            if(usuario.isPresent()) {
+                Carrinho carrinho = repository.findByUsuarioId(usuario.get().getId());
+                if (carrinho == null) {
+                    carrinho = new Carrinho(usuario.get());
+                }
+                for (var produto : dados.produtos()) {
+                    var produtoID = repositoryProduto.findById(produto.getId());
+                    if(produtoID.isPresent()) {
+                        carrinho.addProduto(produtoID.get());
+                    } else {
+                        this.status.put("status", 400);
+                        this.status.put("message", "Produto não encontrado.");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
+                    }
+                }
 
-            Usuario usuario = repositoryUser.findById(dados.usuario().getId()).orElse(null);
-            Produto produto = repositoryProduto.findById(dados.produto().getId()).orElse(null);
+                repository.save(carrinho);
 
-            if (produto == null) {
-                this.status.put("status", 400);
-                this.status.put("message", "Produto não encontrado.");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
-            }
-
-            if (usuario == null) {
+                this.status.put("status", 200);
+                this.status.put("message", carrinho.getProdutos());
+            } else {
                 this.status.put("status", 400);
                 this.status.put("message", "Usuário não encontrado.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
-
-            var carrinho = new Carrinho();
-
-
-            carrinho.setProduto(produto);
-            carrinho.setUsuario(usuario);
-
-            var save = repository.save(carrinho);
-
-            this.status.put("status", 200);
-            this.status.put("message",save);
+            return ResponseEntity.ok(status);
         } catch (Exception e) {
             this.status.put("status", 500);
             this.status.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
-        return ResponseEntity.ok(status);
     }
 
     @GetMapping("/{id}")
@@ -160,6 +159,41 @@ public class CarrinhoController {
                 this.status.put("message", "Carrinho não encontrado.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
             }
+            return ResponseEntity.ok(status);
+        } catch (Exception e) {
+            this.status.put("status", 500);
+            this.status.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+        }
+    }
+
+    @DeleteMapping("/{id}/produto/{idProduto}")
+    @Transactional
+    public ResponseEntity<Object> deleteProdutoCarrinho(@PathVariable Long id, @PathVariable Long idProduto){
+
+        this.status.clear();
+
+        try {
+            var carrinho = repository.findById(id);
+            if(carrinho.isPresent()) {
+                var produto = repositoryProduto.findById(idProduto);
+                if(produto.isPresent()) {
+                    carrinho.get().removeProduto(produto.get());
+                    repository.save(carrinho.get());
+
+                    this.status.put("status", 200);
+                    this.status.put("message", "Produto removido do carrinho.");
+                } else {
+                    this.status.put("status", 400);
+                    this.status.put("message", "Produto não encontrado.");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
+                }
+            } else {
+                this.status.put("status", 400);
+                this.status.put("message", "Carrinho não encontrado.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
+            }
+
             return ResponseEntity.ok(status);
         } catch (Exception e) {
             this.status.put("status", 500);

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Main {
 
-    private static final String API_KEY = System.getenv("API_GPT");
+    private static final String API_KEY = "";
 
     public static void main(String[] args) {
         List<JSONObject> messages = new ArrayList<>();
@@ -62,6 +62,7 @@ public class Main {
             String responseString = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
 
             JSONObject jsonResponse = new JSONObject(responseString);
+            System.out.println(jsonResponse);
             JSONArray choicesArray = jsonResponse.getJSONArray("choices");
             JSONObject choice = choicesArray.getJSONObject(0);
             JSONObject message = choice.getJSONObject("message");

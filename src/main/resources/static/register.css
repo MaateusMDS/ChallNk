@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100vh;
+}
+
+.image-section {
+    flex: 55%;
+    background: url('https://static.nike.com/a/images/f_auto/0f0c58a7-6937-4e47-a52e-7da8b630888d/image.jpeg') no-repeat fixed center;
+    background-size: cover;
+    border-radius: 10px 0 0 10px;
+    transform: translateX(100%);
+    animation: slide-in-right 1s ease-in-out forwards;
+}
+
+.login-section {
+    flex: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 50px;
+    transform: translateX(-100%);
+    animation: slide-in-left 1s ease-in-out forwards;
+}
+
+.login-form input {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+}
+
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

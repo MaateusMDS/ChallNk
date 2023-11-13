@@ -10,6 +10,7 @@ public record getProduto(
         String nome,
         Set<Categoria> categoria,
         Genero genero,
-        float preco
+        float preco,
+        String imagem
 ) {
 }

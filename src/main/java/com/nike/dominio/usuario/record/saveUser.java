@@ -1,5 +1,6 @@
 package com.nike.dominio.usuario.record;
 
+import com.nike.dominio.usuario.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -12,6 +13,7 @@ public record saveUser(
         @NotBlank @Email
         String email,
         @NotBlank
-        String senha
+        String senha,
+        Role role
 ) {
 }

@@ -1,10 +1,15 @@
 package com.nike.dominio.usuario.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.nike.dominio.carrinho.model.Carrinho;
 import com.nike.dominio.usuario.record.putUser;
 import com.nike.dominio.usuario.record.saveUser;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,11 +44,19 @@ public class Usuario {
     @JsonIgnore
     private String senha;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Carrinho carrinho;
+
     public Usuario(saveUser user) {
         this.nome = user.nome();
         this.sobrenome = user.sobrenome();
         this.email = user.email();
         this.senha = user.senha();
+        this.role = Role.USER;
     }
 
     public void putUser(putUser user){
@@ -58,6 +71,9 @@ public class Usuario {
         }
         if(user.senha() != null){
             this.senha = user.senha();
+        }
+        if(user.role() != null){
+            this.role = user.role();
         }
     }
 }

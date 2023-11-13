@@ -10,5 +10,4 @@ public class NikeApplication {
 
 		SpringApplication.run(NikeApplication.class, args);
 	}
-
 }

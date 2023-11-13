@@ -1,0 +1,105 @@
+<head th:fragment="head">
+  <meta charset="UTF-8">
+  <script src="http://localhost:35729/livereload.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" th:href="@{../../static/style.css}" />
+</head>
+
+<div th:fragment="header">
+  <div class="container-fluid">
+    <div class="row align-items-center p-3">
+      <div class="col-2">
+        <a class="logo navbar-brand" th:href="@{/}">
+          <img src="https://static.nike.com.br/v10-295-2/images/brands/logo.svg" data-bs-toggle="tooltip" data-bs-placement="right" title="Voltar ao início">
+        </a>
+      </div>
+      <div class="col-8 mx-auto">
+        <nav class="navbar navbar-expand-lg">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a th:classappend="${currentUrl == '/' ? 'nav-link__active' : ''}" class="nav-link" th:href="@{/}">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a th:classappend="${currentUrl == '/produtos' ? 'nav-link__active' : ''}" class="nav-link" th:href="@{/produtos}">Produtos</a>
+              </li>
+              <li class="nav-item">
+                <a th:classappend="${currentUrl == '/chat' ? 'nav-link__active' : ''}" class="nav-link" th:href="@{/chat}">Chat</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="col-2 d-flex justify-content-end">
+        <div class="icon-container d-flex gap-3" sec:authorize="isAuthenticated()">
+          <a th:href="@{/carrinho}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver carrinho">
+            <i class="icon" th:classappend="${currentUrl == '/carrinho' ? 'icon__active bi bi-cart-fill' : 'bi bi-cart'}">
+            </i>
+          </a>
+          <a onclick="document.querySelector('#form-logout').submit()" class="icon bi bi-door-closed" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Logout"></a>
+          <form id="form-logout" th:action="@{/logout}" method="post"></form>
+        </div>
+        <div class="icon-container d-flex gap-3" sec:authorize="!isAuthenticated()">
+          <a th:href="@{/login}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Iniciar sessão">
+            <i class="icon" th:classappend="${currentUrl == '/login' ? 'icon__active bi bi-person-fill' : 'bi bi-person'}"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>
+
+  <script>
+    var door = document.querySelector('.bi-door-closed');
+    door.addEventListener('mouseenter', function() {
+      this.classList.remove('bi-door-closed');
+      this.classList.add('bi-door-open');
+    });
+
+    door.addEventListener('mouseleave', function() {
+      this.classList.remove('bi-door-open');
+      this.classList.add('bi-door-closed');
+    });
+
+    var cartIcons = document.querySelectorAll('.bi-cart');
+    cartIcons.forEach(function(icon) {
+      icon.addEventListener('mouseenter', function() {
+        this.classList.remove('bi-cart');
+        this.classList.add('bi-cart-fill');
+      });
+
+      icon.addEventListener('mouseleave', function() {
+        this.classList.remove('bi-cart-fill');
+        this.classList.add('bi-cart');
+      });
+    });
+
+    var personIcon = document.querySelectorAll('bi-person');
+    personIcon.forEach(function(icon) {
+      icon.addEventListener('mouseenter', function() {
+        this.classList.remove('bi-piggy-bank');
+        this.classList.add('bi-piggy-bank-fill');
+      });
+
+      icon.addEventListener('mouseleave', function() {
+        this.classList.remove('bi-cart-fill');
+        this.classList.add('bi-person');
+      });
+    });
+
+
+  </script>
+</div>

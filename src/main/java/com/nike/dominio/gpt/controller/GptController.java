@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class GptController {
 
-    @PostMapping("/chat")
+    @PostMapping("api/chat")
     public static String chat(@RequestBody getChat request) {
 
         List<JSONObject> messages = new ArrayList<>();

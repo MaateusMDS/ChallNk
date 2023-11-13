@@ -1,0 +1,173 @@
+:root {
+    --primary-color: #ff6347;
+    --secondary-color: #f5f5f5;
+    --tertiary-color: #000000;
+    --quaternary-color: #ffffff;
+    --quinary-color: #808080;
+    --senary-color: #ff0000;
+    --septenary-color: #ff6347;
+    --octonary-color: #f5f5f5;
+    --nonary-color: #000000;
+    --denary-color: #ffffff;
+}
+
+body{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+.logo{
+    transition: transform 0.1s ease-in;
+}
+
+.logo:hover {
+    transform: scale(1.5);
+
+}
+
+.nav-link {
+    color: black;
+    font-size: 1rem;
+    transition: color 0.2s ease-in, transform 0.1s ease-in;
+    padding: 1rem;
+}
+
+.nav-link:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+.nav-link__active {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.icon {
+    cursor: pointer;
+    transition: color 0.2s ease-in, transform 0.1s ease-in, fill 0.2s ease-in;
+    font-size: 2rem;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+.icon__active {
+    color: var(--primary-color);
+}
+
+.icon-container > a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.banner {
+    background-image: url("https://static.nike.com/a/images/f_auto,cs_srgb/w_1920,c_limit/tpqid8vgfey6m4ke86te/nike-joyride.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.banner:hover {
+    transform: scale(1.02);
+    animation: shadow-animation 5s ease-in-out infinite alternate;
+
+}
+
+
+.separator {
+    width: 100%;
+    height: 2rem;
+    margin: 0 auto;
+}
+
+.separator > article > p {
+    color: black;
+    font-size: 1.5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+}
+
+.product-info {
+    margin-top: 20px;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.product-price {
+    color: #777;
+    margin: 10px 0;
+}
+
+.product-button {
+    background-color: #22b727;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.product-button:hover {
+    background-color: #1b991f;
+}
+
+@keyframes shadow-animation {
+    0%{
+
+    }
+    15% {
+        box-shadow: #ff6347 -5px 5px
+    }
+    25% {
+        box-shadow: #ff6347 -5px 5px,
+        #ff6c51 -10px 10px;
+    }
+    50% {
+        box-shadow: #ff6347 -5px 5px,
+        #ff6c51 -10px 10px,
+        #ff7a5c -15px 15px;
+    }
+    75% {
+        box-shadow: #ff6347 -5px 5px,
+        #ff6c51 -10px 10px,
+        #ff7a5c -15px 15px,
+        #ff8866 -20px 20px;
+    }
+    100% {
+        box-shadow: #ff6347 -5px 5px,
+        #ff6c51 -10px 10px,
+        #ff7a5c -15px 15px,
+        #ff8866 -20px 20px,
+        #ff9470 -25px 25px;
+    }
+}

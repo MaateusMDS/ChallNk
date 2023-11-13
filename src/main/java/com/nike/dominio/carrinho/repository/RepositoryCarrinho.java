@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RepositoryCarrinho extends JpaRepository<Carrinho, Long> {
-    List<getCarrinho> findAllBy();
-
+    Carrinho findByUsuarioId(Long id);
 }

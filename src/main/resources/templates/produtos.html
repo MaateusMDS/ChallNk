@@ -1,35 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-</head>
-
-
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{shared/header :: head}"></head>
 <body>
-<nav class="navbar navbar-light bg-light p-3">
-    <span class="navbar-brand mb-0 h1"><img class="w-25 hover-zoom" src="https://logopng.com.br/logos/nike-99.svg" alt="Logo da Nike"/></span>
-</nav>
+
+<div th:replace="~{shared/header :: header}"></div>
+
 <div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Genero</th>
-            <th scope="col">Preço</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="produto : ${produtos}">
-            <th scope="row" th:text="${produto.id}" th:value="${produto.id}"></th>
-            <th scope="row" th:text="${produto.nome}"></th>
-            <td th:text="${produto.genero.name()}"></td>
-            <td th:text="${produto.preco}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:each="categoria : ${categorias}">
+        <h1 th:text="${categoria.getNome()}"></h1>
+        <div class="row">
+            <div class="col-md-4" th:each="produto : ${categoria.getProdutos()}">
+                <div class="product-card">
+                    <img th:src="${produto.getImagem()}" class="product-image" alt="Imagem do produto">
+                    <div class="product-info">
+                        <h2 class="product-title" th:text="${produto.getNome()}"></h2>
+                        <p class="product-price" th:text="'R$' + ${#numbers.formatDecimal(produto.getPreco(), 1, 'COMMA', 2, 'POINT')}"></p>
+                        <form th:action="@{/api/carrinho}" method="POST">
+                            <button class="btn product-button" type="submit">
+                                <i class="bi bi-cart"></i> Adicionar ao carrinho
+                            </button>
+                            <input type="hidden" name="produtoId" th:value="${produto.getId()}">
+                            <input type="hidden" name="userId" th:value="${userId}">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".product-button").click(function(event){
+            event.preventDefault();
+            var form = $(this).closest("form");
+            var produtoId = form.find("input[name='produtoId']").val();
+            var userId = form.find("input[name='userId']").val();
+            var data = {
+                "usuario": {
+                    "id": userId
+                },
+                "produtos": [
+                    {
+                        "id": produtoId
+                    }
+                ]
+            };
+            $.ajax({
+                url: '/api/carrinho',
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    console.log(data);
+                },
+                data: JSON.stringify(data)
+            });
+        });
+    });
+</script>
 </html>

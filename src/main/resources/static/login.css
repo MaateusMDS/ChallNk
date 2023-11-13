@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+.image-section {
+    flex: 55%;
+    background: url('https://cdn2.unrealengine.com/fortnite-airphoria-2-1920x1080-a6b77c9e379a.jpg') no-repeat fixed center;
+    background-size: cover;
+    border-radius: 0 10px 10px 0;
+    transform: translateX(-100%);
+}
+
+.login-section {
+    flex: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 50px;
+    transform: translateX(100%);
+}
+
+.login-form input {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

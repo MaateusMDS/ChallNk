@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("api/categoria")
 public class CategoriaController {
 
     Map<String, Object> status = new HashMap<>();
@@ -65,6 +65,7 @@ public class CategoriaController {
         }
         return ResponseEntity.ok(status);
     }
+
 
     @GetMapping()
     public ResponseEntity<Object> getAll(){

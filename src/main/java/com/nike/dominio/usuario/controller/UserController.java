@@ -8,23 +8,26 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/user")
+@RestController()
+@RequestMapping("api/user")
 public class UserController {
 
     Map<String, Object> status = new HashMap<>();
 
     @Autowired
     private RepositoryUser repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping
     @Transactional
@@ -33,7 +36,9 @@ public class UserController {
         this.status.clear();
 
         try {
-            Usuario usuario = repository.save(new Usuario(dados));
+            Usuario usuario = new Usuario(dados);
+            usuario.setSenha(passwordEncoder.encode(dados.senha()));
+            repository.save(usuario);
             this.status.put("status", 200);
             this.status.put("message", usuario);
 
@@ -69,22 +74,38 @@ public class UserController {
     }
 
     @GetMapping()
-    public ModelAndView getAll() {
-        List<Usuario> usuarios = repository.findAll();
-        ModelAndView mv = new ModelAndView("usuarios");
-        mv.addObject("usuarios", usuarios);
-        return mv;
+    public ResponseEntity<Map<String, Object>> getAllUsers() {
+
+        this.status.clear();
+
+        try {
+            List<Usuario> usuarios = repository.findAll();
+            if (usuarios.isEmpty()) {
+                this.status.put("status", 400);
+                this.status.put("message", "Não há usuários cadastrados.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
+            } else {
+                this.status.put("status", 200);
+                this.status.put("message", usuarios.stream().toArray());
+            }
+        } catch (Exception e) {
+            this.status.put("status", 500);
+            this.status.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+        }
+        return ResponseEntity.ok(status);
+
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteUser(@PathVariable @Valid Long id){
+    public ResponseEntity<Object> deleteUser(@PathVariable @Valid Long id) {
 
         this.status.clear();
 
         try {
             var user = repository.findById(id);
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 repository.deleteById(id);
 
                 this.status.put("status", 200);
@@ -105,19 +126,19 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody @Valid putUser dados){
+    public ResponseEntity<Object> putUser(@PathVariable Long id, @RequestBody @Valid putUser dados) {
 
         this.status.clear();
 
         try {
             var usuarioId = repository.findById(id);
-            if(usuarioId.isPresent()) {
+            if (usuarioId.isPresent()) {
                 Usuario usuario = repository.getReferenceById(id);
 
                 usuario.putUser(dados);
 
                 this.status.put("status", 200);
-                this.status.put("message",usuarioId.stream().toArray());
+                this.status.put("message", usuarioId.stream().toArray());
             } else {
                 this.status.put("status", 400);
                 this.status.put("message", "Usuário não encontrado.");

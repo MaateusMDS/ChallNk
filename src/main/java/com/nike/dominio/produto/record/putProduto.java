@@ -11,7 +11,8 @@ public record putProduto(
         Set<Categoria> categoria,
         Genero genero,
         @Min(1)
-        float preco
+        float preco,
+        String imagem
 ) {
 
 }

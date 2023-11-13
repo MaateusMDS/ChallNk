@@ -1,11 +1,15 @@
 package com.nike.dominio.carrinho.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nike.dominio.produto.model.Produto;
 import com.nike.dominio.usuario.model.Usuario;
 import com.nike.dominio.carrinho.record.putCarrinho;
 import com.nike.dominio.carrinho.record.saveCarrinho;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "NK_TB_CARRINHO")
@@ -30,30 +34,52 @@ public class Carrinho {
 
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(
-            name = "ID_PRODUTO", referencedColumnName = "ID_PRODUTO", foreignKey = @ForeignKey(name = "FK_PRODUTO_CARRINHO")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "NK_TB_PRODUTO_CARRINHO",
+            joinColumns = {@JoinColumn(name = "ID_CARRINHO", referencedColumnName = "ID_CARRINHO", foreignKey = @ForeignKey(name = "FK_CARRINHO"))},
+            inverseJoinColumns = {@JoinColumn(name = "ID_PRODUTO", referencedColumnName = "ID_PRODUTO", foreignKey = @ForeignKey(name = "FK_PRODUTO"))}
     )
-    private Produto produto;
+    private List<Produto> produtos;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(
-            name = "ID_USUARIO", referencedColumnName = "ID_USUARIO", foreignKey = @ForeignKey(name = "FK_USUARIO_CARRINHO")
-    )
+    @OneToOne
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO", foreignKey = @ForeignKey(name = "FK_CARRINHO_USUARIO"))
+    @JsonBackReference
     private Usuario usuario;
 
     public Carrinho(saveCarrinho carrinho) {
         this.usuario = carrinho.usuario();
-        this.produto = carrinho.produto();
+        this.produtos = carrinho.produtos();
     }
 
     public void putCarrinho(putCarrinho carrinho){
-        if(carrinho.produto() != null){
-            this.produto = carrinho.produto();
+        if(carrinho.produtos() != null){
+            this.produtos = carrinho.produtos();
         }
-        if(carrinho.usuario() != null){
-            this.usuario = carrinho.usuario();
+    }
+
+    public List<Produto> getProdutos() {
+        return this.produtos;
+    }
+
+    public void addProduto(Produto produto) {
+        if (this.produtos == null) {
+            this.produtos = new ArrayList<>();
         }
+        this.produtos.add(produto);
+    }
+
+    public void removeProduto(Produto produto) {
+        this.produtos.remove(produto);
+    }
+
+    public void clearProdutos() {
+        this.produtos.clear();
+    }
+
+    public Carrinho(Usuario usuario) {
+        this.usuario = usuario;
+        this.produtos = new ArrayList<>();
     }
 
 }

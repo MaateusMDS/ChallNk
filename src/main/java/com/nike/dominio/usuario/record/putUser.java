@@ -1,5 +1,6 @@
 package com.nike.dominio.usuario.record;
 
+import com.nike.dominio.usuario.model.Role;
 import jakarta.validation.constraints.Email;
 
 public record putUser (
@@ -8,7 +9,8 @@ public record putUser (
         String sobrenome,
         @Email
         String email,
-        String senha
+        String senha,
+        Role role
 ) {
 
 }

@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping("api/produto")
 public class ProdutoController {
 
     Map<String, Object> status = new HashMap<>();
@@ -32,28 +32,33 @@ public class ProdutoController {
     @PostMapping
     @Transactional
     public ResponseEntity<Map<String, Object>> saveProduto(@RequestBody @Valid saveProduto dados) {
-
         this.status.clear();
 
         try {
             Set<Categoria> categorias = new LinkedHashSet<>();
-            for (Categoria categoria : dados.categoria()) {
-                Categoria categoriaExistente = repositoryCategoria.findByNome(categoria.getNome());
-                if (categoriaExistente != null) {
-                    categorias.add(categoriaExistente);
+            for (String categoriaNome : dados.categoria()) {
+                Optional<Categoria> categoriaOptional = Optional.ofNullable(repositoryCategoria.findByNome(categoriaNome));
+                if (categoriaOptional.isPresent()) {
+                    categorias.add(categoriaOptional.get());
                 } else {
-                    this.status.put("status", 400);
-                    this.status.put("message", "Não foi possível encontrar a categoria");
-                    return ResponseEntity.badRequest().body(status);
+                    Categoria newCategoria = new Categoria();
+                    newCategoria.setNome(categoriaNome);
+                    Categoria savedCategoria = repositoryCategoria.save(newCategoria);
+                    categorias.add(savedCategoria);
                 }
             }
 
-            saveProduto dadosAtualizados = new saveProduto(dados.nome(), categorias, dados.genero(), dados.preco());
+            Produto produto = new Produto();
+            produto.setNome(dados.nome());
+            produto.setCategorias(categorias);
+            produto.setGenero(dados.genero());
+            produto.setPreco(dados.preco());
+            produto.setImagem(dados.imagem());
 
-            var produto = repository.save(new Produto(dadosAtualizados));
+            Produto savedProduto = repository.save(produto);
 
             this.status.put("status", 200);
-            this.status.put("message", produto);
+            this.status.put("message", savedProduto);
 
             return ResponseEntity.ok(status);
         } catch (Exception e) {
@@ -62,8 +67,6 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
         }
     }
-
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getProdutoById(@PathVariable Long id) {
@@ -89,23 +92,37 @@ public class ProdutoController {
     }
 
     @GetMapping()
-    public ModelAndView getAll(){
+    public ResponseEntity<Map<String, Object>> getAllProdutos() {
 
-        List<Produto> produtos = repository.findAll();
-        ModelAndView mv = new ModelAndView("produtos");
-        mv.addObject("produtos", produtos);
-        return mv;
+        this.status.clear();
+
+        try {
+            List<Produto> produtos = repository.findAll();
+            if (produtos.isEmpty()) {
+                this.status.put("status", 400);
+                this.status.put("message", "Não há produtos cadastrados.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.status);
+            } else {
+                this.status.put("status", 200);
+                this.status.put("message", produtos.stream().toArray());
+            }
+        } catch (Exception e) {
+            this.status.put("status", 500);
+            this.status.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(status);
+        }
+        return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> deleteProduto(@PathVariable @Valid Long id){
+    public ResponseEntity<Object> deleteProduto(@PathVariable @Valid Long id) {
 
         this.status.clear();
 
         try {
             var produto = repository.findById(id);
-            if(produto.isPresent()) {
+            if (produto.isPresent()) {
                 repository.deleteById(id);
 
                 this.status.put("status", 200);
@@ -126,19 +143,19 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> putProduto(@PathVariable Long id, @RequestBody @Valid putProduto dados){
+    public ResponseEntity<Object> putProduto(@PathVariable Long id, @RequestBody @Valid putProduto dados) {
 
         this.status.clear();
 
         try {
             var produtoId = repository.findById(id);
-            if(produtoId.isPresent()) {
+            if (produtoId.isPresent()) {
                 Produto produto = repository.getReferenceById(id);
 
                 produto.putProduto(dados);
 
                 this.status.put("status", 200);
-                this.status.put("message",produto);
+                this.status.put("message", produto);
             } else {
                 this.status.put("status", 400);
                 this.status.put("message", "Produto não encontrado.");

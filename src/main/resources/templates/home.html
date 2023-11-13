@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{shared/header :: head}"></head>
+<body>
+
+<div th:replace="~{shared/header :: header}"></div>
+
+<div class="container">
+    <div class="banner rounded mb-5" style="width:100%; height: 55%">
+    </div>
+</div>
+
+<section class="separator p-5 mb-5 d-flex justify-content-center align-items-center">
+    <article sec:authorize="!isAuthenticated()" class="text-center">
+        <p>Ainda não possui uma conta?</p>
+        <a th:href="@{/register}" class="btn btn-dark">Cadastre-se</a>
+    </article>
+    <article sec:authorize="isAuthenticated()" class="text-center">
+        <p>Veja produtos para você!</p>
+    </article>
+</section>
+
+<div class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_1920,c_limit/3e3f5b5a-1b1b-4b1a-8b1a-9b1a9b1a9b1a/nike-just-do-it.jpg" alt="Banner" class="rounded mb-5 img-thumbnail" style="width:100%; height: 100%">
+            </div>
+            <div class="col-6">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_1920,c_limit/3e3f5b5a-1b1b-4b1a-8b1a-9b1a9b1a9b1a/nike-just-do-it.jpg" alt="Banner" class="rounded mb-5 img-thumbnail" style="width:100%; height: 100%">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

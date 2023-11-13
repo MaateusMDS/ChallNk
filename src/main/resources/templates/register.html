@@ -1,0 +1,85 @@
+<html>
+<head>
+  <div th:insert="~{shared/header :: head}"></div>
+  <link rel="stylesheet" th:href="@{../static/register.css}">
+</head>
+<body style="opacity: 0; visibility: hidden">
+<div class="image-section"></div>
+<div class="login-section">
+  <div class="login-form mx-auto" style="width: 300px;">
+    <img class="mb-4" src="https://imgur.com/aTHoQFN.png" alt="Logo" style="width: 100px; display: block; margin: 0 auto;">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Registre suas credenciais</h1>
+    <form class="d-flex flex-column gap-3" th:action="@{/login}" method="post">
+      <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Credenciais inválidas. Por favor, tente novamente.
+      </div>
+      <input type="text" id="firstName" name="firstName" class="form-control mb-2" placeholder="Insira seu nome" required autofocus>
+      <input type="text" id="lastName" name="lastName" class="form-control mb-2" placeholder="Insira seu sobrenome" required>
+      <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Insira seu e-mail" required>
+      <input type="password" id="password" name="password" class="form-control mb-2" placeholder="****" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
+    </form>
+    <p class="mt-3 text-center">Já possui uma conta? <a href="/login">Iniciar sessão</a></p>
+  </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $('form').on('submit', function(e) {
+    e.preventDefault();
+
+    var data = {
+      nome: $('#firstName').val(),
+      sobrenome: $('#lastName').val(),
+      email: $('#email').val(),
+      senha: $('#password').val()
+    };
+
+    $.ajax({
+      url: 'http://localhost:8080/api/user',
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function(data) {
+        console.log(data);
+
+        $.ajax({
+          url: 'http://localhost:8080/login',
+          type: 'POST',
+          data: JSON.stringify({
+            username: $('#email').val(),
+            password: $('#password').val()
+          }),
+          contentType: 'application/json',
+          xhrFields: {
+            withCredentials: true
+          },
+          success: function(data) {
+            window.location.href = '/login';
+          },
+          error: function(error) {
+            console.error('Erro no login:', error);
+          }
+        });
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+  });
+</script>
+<script>
+  setTimeout(function() {
+    document.body.style.opacity = "1";
+    document.body.style.visibility = "visible";
+    document.body.style.transform = "translateX(0)";
+    var url = window.location.href;
+    if (!url.includes("/login?error")) {
+      document.body.classList.add("animate");
+    }
+  }, 300);
+</script>
+</html>
